@@ -6,8 +6,13 @@ require("dotenv").config();
 const session=require("express-session");
 const MongoDbStore=require('connect-mongodb-session')(session);
 //loacl module
-const {signupRoute}=require("./middlewire/Auth/signup");
-const { Collection } = require("mongodb");
+const {loginRoute}=require("./Routes/Auth/login");
+const {logoutRoute}=require("./Routes/Auth/logout");
+const {sessionRoute}=require("./Routes/Auth/session");
+const {signupRoute}=require("./Routes/Auth/signup");
+const {productRoute}=require("./Routes/products/products");
+
+
 const app = express();
 
 app.use(express.json());
@@ -42,7 +47,14 @@ app.use(
 
 
 //routes
+
 app.use(signupRoute);
+app.use(loginRoute);
+app.use(sessionRoute);
+
+app.use(logoutRoute);
+app.use(productRoute);
+
 
 
 

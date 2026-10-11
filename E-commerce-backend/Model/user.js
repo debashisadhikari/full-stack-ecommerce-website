@@ -5,6 +5,7 @@ const userSchema=mongoose.Schema(
       type:String,
       require:[true,"Name is reauired"]
     },
+    
     Phone:{
       type:String,
       require:[true,"phone no. is required"]
@@ -16,7 +17,11 @@ const userSchema=mongoose.Schema(
     Password:{
       type:String,
       require:[true,"password required"],
-    }
+    },
+    Type:{
+      type:String,
+      require:[true,"requied type"]
+    },
   }
 );
 module.exports=mongoose.model('User',userSchema);

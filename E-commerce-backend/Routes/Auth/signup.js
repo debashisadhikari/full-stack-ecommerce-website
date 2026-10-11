@@ -1,7 +1,7 @@
 const express=require("express");
 const signupRoute=express.Router();
 //local
-const {SignupPost}=require('../Controller/signupControl');
+const {SignupPost}=require('../../Controller/signupControl');
 
   signupRoute.get("/api/signup",(req,res,next)=>{
         res.json({

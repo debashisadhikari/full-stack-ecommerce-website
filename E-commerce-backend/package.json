@@ -13,6 +13,7 @@
   "type": "commonjs",
   "dependencies": {
     "bcryptjs": "^3.0.3",
+    "bson": "^6.10.4",
     "connect-mongodb-session": "^5.0.0",
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",

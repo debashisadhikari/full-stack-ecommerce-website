@@ -1,7 +1,49 @@
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../Auth-Contex/AuthContex";
 
 const Login = () => {
+ const navigate = useNavigate();
+ const { user, checkLogin, loading} = useContext(AuthContext);
+ const [err,seterr]=useState();
+
+ useEffect(() => {
+   if (!loading && user) {
+     navigate("/home", { replace: true });
+   }
+ }, [loading, user, navigate]);
+//login handaler
+  const loginSubmitHandler=async (e)=>{
+        e.preventDefault();
+        const Formdata=new FormData(e.target);
+        const data=Object.fromEntries(Formdata.entries());
+      
+        const response=await fetch("http://localhost:5001/api/login",{
+          method:"POST",
+          credentials: "include",
+          headers:{
+           "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        });
+          const result = await response.json();
+          console.log(result.message);
+         
+
+           if(result.success===true){
+            await checkLogin();
+             navigate("/home");
+           }else{
+            seterr(result.message);
+           }
+  }
+
+
+  if (user) {
+    return null;
+  }
+
   return (
     <main className="relative flex min-h-[calc(100vh-5rem)] w-full items-center justify-center overflow-hidden bg-slate-50 px-4 py-12 sm:px-6 lg:px-8">
       <div className="absolute left-1/2 top-0 h-72 w-72 -translate-x-1/2 rounded-full bg-blue-100/60 blur-3xl" />
@@ -17,14 +59,26 @@ const Login = () => {
         </div>
 
         <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-xl shadow-slate-900/10 sm:p-8">
-          <form className="space-y-5">
+        {err&&err.length>0&&(
+          <p className=" text-red-600 mb-2.5">.{err} try again!</p>
+        )}
+          <form className="space-y-5"
+          onSubmit={(e)=>{
+            loginSubmitHandler(e);
+          }}
+          
+          
+          >
             <div>
-              <label htmlFor="email" className="mb-2 block text-sm font-bold text-slate-700">Email address</label>
+              <label htmlFor="email" className="mb-2 block text-sm font-bold text-slate-700">Phone no:</label>
               <input
-                id="email"
-                name="email"
-                type="email"
-                placeholder="you@example.com"
+                 type="tel"
+                name="phone"
+  
+                maxLength={10}
+               inputMode="numeric"
+                pattern="[6-9][0-9]{9}"
+                placeholder="Enter Register phone no."
                 required
                 className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3.5 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 hover:border-slate-300 focus:border-blue-600 focus:bg-white focus:ring-4 focus:ring-blue-600/10"
               />
@@ -35,11 +89,38 @@ const Login = () => {
               <input
                 id="password"
                 name="password"
+                minLength={8}
                 type="password"
                 placeholder="Enter your password"
                 required
                 className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3.5 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 hover:border-slate-300 focus:border-blue-600 focus:bg-white focus:ring-4 focus:ring-blue-600/10"
               />
+               <label className="flex mt-6 items-start gap-3 text-xs leading-5 text-slate-500">
+               <label className="mb-2 block text-sm font-bold text-slate-700" htmlFor="confirm-password">Accout Type: </label>
+             <label className="flex items-center gap-2 text-sm text-slate-600">
+          
+    <input
+      type="radio"
+      name="role"
+      value="customer"
+      required
+      className="h-4 w-4 accent-blue-600"
+    />
+    Customer
+  </label>
+
+  <label className="flex items-center gap-2 text-sm text-slate-600">
+    <input
+      type="radio"
+      name="role"
+      value="admin"
+      required
+      className="h-4 w-4 accent-blue-600"
+    />
+    Admin
+  </label>
+              
+            </label>
             </div>
 
             <button type="submit" className="w-full rounded-xl bg-blue-600 px-4 py-3.5 text-sm font-bold text-white shadow-lg shadow-blue-600/20 transition hover:-translate-y-0.5 hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-600/20 active:translate-y-0">

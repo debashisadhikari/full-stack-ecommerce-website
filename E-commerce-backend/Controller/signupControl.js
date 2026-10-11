@@ -36,8 +36,9 @@ exports.SignupPost = [
       minSymbols: 1
     })
     .withMessage(
-      "Password must contain uppercase, lowercase, number and special character"
+      "Password length must be 8 and contain uppercase, lowercase, number and special character"
     ),
+  
 
   
   check("confirmPassword")
@@ -48,11 +49,13 @@ exports.SignupPost = [
 
       return true;
     }),
-
+    check("role")
+.notEmpty()
+ .withMessage("type must be selected"),
 
   async (req, res) => {
 
-    const { name, phone, email, password } = req.body;
+    const { name, phone, email, password,role } = req.body;
 
     const errors = validationResult(req);
 
@@ -75,14 +78,16 @@ exports.SignupPost = [
      
 
      
-      const existingPhone = await User.findOne({
-        Phone: phone
+      const existingUser = await User.findOne({
+        Phone: phone,
+        Type:role,
+
       });
 
-      if (existingPhone) {
+      if (existingUser) {
         return res.status(400).json({
           success: false,
-          message: "Phone number already registered"
+          errors: "Phone number already registered"
         });
       }
 
@@ -94,7 +99,8 @@ exports.SignupPost = [
         Name: name,
         Phone: phone,
         Email: email,
-        Password: hashedPassword
+        Password: hashedPassword,
+        Type:role,
       });
 
       
@@ -102,7 +108,7 @@ exports.SignupPost = [
 
       return res.status(201).json({
         success: true,
-        message: "User registered successfully"
+        errors: "User registered successfully"
       });
 
     } catch (error) {
@@ -111,7 +117,7 @@ exports.SignupPost = [
 
       return res.status(500).json({
         success: false,
-        message: "Something went wrong"
+        errors: "Something went wrong"
       });
     }
   }
