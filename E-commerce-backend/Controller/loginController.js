@@ -16,7 +16,7 @@ exports.loginPost = [
     .withMessage("Password is required"),
 
   check("role")
-    .notEmpty()
+  .notEmpty()
     .withMessage("Role is required"),
 
   async (req, res) => {

@@ -10,7 +10,7 @@ const Login = () => {
 
  useEffect(() => {
    if (!loading && user) {
-     navigate("/home", { replace: true });
+     navigate("/", { replace: true });
    }
  }, [loading, user, navigate]);
 //login handaler
@@ -33,7 +33,7 @@ const Login = () => {
 
            if(result.success===true){
             await checkLogin();
-             navigate("/home");
+             navigate("/");
            }else{
             seterr(result.message);
            }

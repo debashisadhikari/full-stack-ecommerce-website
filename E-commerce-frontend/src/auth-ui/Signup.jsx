@@ -9,7 +9,7 @@ const Signup = () => {
 
   useEffect(() => {
     if (!loading && user) {
-      navigate("/home", { replace: true });
+      navigate("/", { replace: true });
     }
   }, [loading, user, navigate]);
   

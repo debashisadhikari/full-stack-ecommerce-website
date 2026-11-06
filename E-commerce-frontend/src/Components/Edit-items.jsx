@@ -7,10 +7,11 @@ const EditItems = () => {
   useEffect(()=>{
     const getProduct=async()=>{
       try{
-      const respone=await fetch("http://localhost:5001/api/getproduct",{
+      const respone=await fetch("http://localhost:5001/api/getproductAdmin",{
          credentials: "include",
       });
       const data=await respone.json();
+      
       setProducts(data.allProducts);
       console.log("all data",data);
       }catch{
@@ -110,7 +111,7 @@ const EditItems = () => {
                 <div className="flex h-28 w-28 shrink-0 items-center justify-center rounded-xl bg-slate-100 p-3">
                   <img
                      className="h-full w-full object-contain"
-                    src={product.image[0]}
+                    src={product.Image[0].url}
                   />
                 </div>
 
@@ -125,7 +126,7 @@ const EditItems = () => {
                         Brand
                       </p>
                       <p className="font-semibold text-slate-700">
-                        {product.brand}
+                        {product.Brand}
                       </p>
                     </div>
 
@@ -134,7 +135,7 @@ const EditItems = () => {
                         Model
                       </p>
                       <p className="font-semibold text-slate-700">
-                     {product.model}
+                     {product.Model}
                       </p>
                     </div>
 
@@ -143,7 +144,7 @@ const EditItems = () => {
                         RAM
                       </p>
                       <p className="font-semibold text-slate-700">
-                 {product.specification.Ram} GB 
+                 {product.Details.Ram} GB 
                       </p>
                     </div>
 
@@ -152,7 +153,7 @@ const EditItems = () => {
                         ROM
                       </p>
                       <p className="font-semibold text-slate-700">
-                        {product.specification.Rom} GB
+                        {product.Details.Rom} GB
                       </p>
                     </div>
 
@@ -161,7 +162,7 @@ const EditItems = () => {
                         Price
                       </p>
                       <p className="font-bold text-slate-950">
-                     ₹ {product.specification.Price}
+                     ₹ {product.Details.Price}
                       </p>
                     </div>
                   </div>

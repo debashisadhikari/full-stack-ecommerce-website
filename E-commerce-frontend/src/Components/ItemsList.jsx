@@ -24,20 +24,24 @@ const ItemsList = () => {
   const [activeBrand, setActiveBrand] = useState("All brands");
 
   return (
-    <section className="mx-auto max-w-7xl px-5 py-2 sm:px-8 lg:px-10">
+    <section className="mx-auto w-full max-w-7xl px-3 py-2 sm:px-6 lg:px-10">
       <div className="rounded-2xl border border-slate-200 bg-white p-2 shadow-[0_10px_30px_-20px_rgba(15,23,42,0.4)]">
-        <div className="flex items-center gap-2 overflow-x-auto">
+        <div className="flex items-center gap-1.5 overflow-x-auto sm:gap-2">
 
           {visibleBrands.map((brand) => (
             <button
               key={brand}
               type="button"
               onClick={() => setActiveBrand(brand)}
-              className={`whitespace-nowrap rounded-full px-4 py-2.5 text-sm font-semibold transition ${
-                activeBrand === brand
-                  ? "bg-slate-950 text-white shadow-md"
-                  : "border border-slate-200 bg-slate-50 text-slate-600 hover:border-teal-400 hover:bg-teal-50 hover:text-teal-700"
-              }`}
+              className={`shrink-0 whitespace-nowrap rounded-full
+                px-3 py-2 text-xs
+                sm:px-4 sm:py-2.5 sm:text-sm
+                font-semibold transition duration-200
+                ${
+                  activeBrand === brand
+                    ? "bg-slate-950 text-white shadow-md"
+                    : "border border-slate-200 bg-slate-50 text-slate-600 hover:border-teal-400 hover:bg-teal-50 hover:text-teal-700"
+                }`}
             >
               {brand}
             </button>
@@ -45,7 +49,11 @@ const ItemsList = () => {
 
           <Link
             to="/categories"
-            className="ml-auto shrink-0 whitespace-nowrap rounded-full px-4 py-2.5 text-sm font-bold text-teal-700 transition hover:bg-teal-50 hover:text-teal-900"
+            className="ml-auto shrink-0 whitespace-nowrap rounded-full
+              px-3 py-2 text-xs
+              sm:px-4 sm:py-2.5 sm:text-sm
+              font-bold text-teal-700 transition
+              hover:bg-teal-50 hover:text-teal-900"
           >
             More →
           </Link>

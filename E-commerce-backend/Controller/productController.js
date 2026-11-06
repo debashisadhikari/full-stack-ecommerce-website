@@ -1,41 +1,46 @@
 const products=require("../Model/product");
 
 exports.productPost=async(req,res,next)=>{
-  try{
-  const {brand,model,color,image,productdetails}=req.body;
+  const product=req.body;
+  
   const userId=req.session.userId;
-  
-  const product= new products({
-    userId:userId,
-    brand:brand,
-    model:model,
-    color:color,
-    image:image.url,
-    specification:productdetails,
-
+  try{
+  const Newproduct= await new products({
+    UserId:userId,
+    Brand:product.brand,
+    Model:product.model,
+    Color:product.color,
+    Image:product.image,
+    OPURL:product.OPURL,
+    Details:product.productdetails,
   })
   
-  await product.save();
-  return res.json({
-    status:"success",
-    message:"product add successfully",
-  })
-}catch(err){
-  return res.json({
-    status:"success",
-    message:err,
-  })
+   await Newproduct.save();
+   return res.status(200).json({
+    success:true,
+    message:"products is succesfully added",
+   })
+}catch{
+ return res.status(500).json({
+  success:false,
+  message:"Intenal error",
+ })
 }
+  
+  
+
 
 
 
 
 }
-exports.productGet=async(req,res,next)=>{
+exports.productGetAdminListed=async(req,res,next)=>{
        const userId=req.session.userId;
+      
       const allProducts=await products.find({
-        userId:userId,
+        UserId:userId,
       });
+      
       
 
    
@@ -43,4 +48,24 @@ exports.productGet=async(req,res,next)=>{
         status:"success",
         allProducts,
       })
+};
+
+exports.getAllProducts = async (req, res, next) => {
+  const product=await products.find();
+ 
+    return res.status(200).json({
+      product
+    })
+   
+};
+exports.getProductbyId=async(req,res,next)=>{
+     const { id } = req.params;
+   
+     const product = await products.findById(id);
+     
+     
+     return res.status(200).json({
+      success:true,
+      product:product,
+     })
 }

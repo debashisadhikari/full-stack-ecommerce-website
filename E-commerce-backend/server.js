@@ -11,6 +11,8 @@ const {logoutRoute}=require("./Routes/Auth/logout");
 const {sessionRoute}=require("./Routes/Auth/session");
 const {signupRoute}=require("./Routes/Auth/signup");
 const {productRoute}=require("./Routes/products/products");
+const {profileRoute}=require("./Routes/Profile/profile")
+const {orderRouter}=require("./Routes/Profile/order");
 
 
 const app = express();
@@ -54,6 +56,8 @@ app.use(sessionRoute);
 
 app.use(logoutRoute);
 app.use(productRoute);
+app.use(profileRoute);
+app.use(orderRouter);
 
 
 

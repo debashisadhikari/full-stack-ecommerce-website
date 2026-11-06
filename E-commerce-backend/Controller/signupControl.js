@@ -1,6 +1,7 @@
 
 const { check, validationResult } = require("express-validator");
 const User = require("../Model/user");
+const UserProfileDetails=require("../Model/profile");
 const bcrypt = require("bcryptjs");
 
 exports.SignupPost = [
@@ -102,10 +103,19 @@ exports.SignupPost = [
         Password: hashedPassword,
         Type:role,
       });
+      
 
       
       await user.save();
+      
+      
+        const profile = new UserProfileDetails({
+          UserId: user._id,
+         
+        });
 
+        await profile.save();
+      
       return res.status(201).json({
         success: true,
         errors: "User registered successfully"
